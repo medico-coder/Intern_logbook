@@ -1,0 +1,27 @@
+workflows:
+  flutter-workflow:
+    name: Flutter CI/CD
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      xcode: latest # remove if not building iOS
+      cocoapods: default # remove if not iOS
+    scripts:
+      - name: Install dependencies
+        script: flutter pub get
+      - name: Run tests
+        script: flutter test
+      - name: Build APK (Android)
+        script: flutter build apk --release
+      - name: Build IPA (iOS)
+        script: flutter build ipa --release # remove if not iOS
+    artifacts:
+      - build/app/outputs/flutter-apk/app-release.apk
+      - build/ios/ipa/*.ipa # remove if not iOS
+    publishing:
+      email:
+        recipients:
+          - your-email@example.com # optional
+      codemagic-store: false
+      google-play: false
+      app-store: false
